@@ -1,0 +1,41 @@
+###
+# Create a new Author
+POST http://localhost:4000/author
+Content-Type: application/json
+
+{
+    "name": "ccristian1",
+    "email": "cristiantest1@gmail.com.ts",
+    "img" : "https://theworldneedsyourbook.com/shop/wp-content/uploads/2020/11/13-Author-Mindset-Solo-Ebook.png",
+    "biographyInformation":"My description1",
+    "firstName":"Cristian1",
+    "lastName":"Test1"
+}
+
+###
+# List Authors
+
+GET http://localhost:4000/author
+Content-Type: application/json
+
+###
+
+# List one author
+
+GET http://localhost:4000/author/0u48IahlVMF004mpVTXC
+Content-Type: application/json
+
+###
+
+# Update  Author
+PUT http://localhost:4000/author/0u48IahlVMF004mpVTXC
+Content-Type: application/json
+
+{
+    "name": "ccristian1-edit",
+    "email": "cristiantest1@gmail.com.ts",
+    "img" : "https://theworldneedsyourbook.com/shop/wp-content/uploads/2020/11/13-Author-Mindset-Solo-Ebook.png",
+    "biographyInformation":"My description1",
+    "firstName":"Cristian1",
+    "lastName":"Test1"
+}
