@@ -1,42 +1,40 @@
-export class Book {
-  title: string;
-  author: string;
-  description: string;
-  img: string;
-  price: number;
-  genere: string;
-  language: string;
-  page_count: number;
-  publication_year: string;
-  url: string;
-  discount: number;
-  created: string;
+import { BOOKINPUT,BOOKOUTPUT } from "@interfaces/books";
 
-  constructor(
-  title: string,
-  author: string,
-  description: string,
-  img: string,
-  cost: number,
-  genere: string,
-  language: string,
-  pageCount: number,
-  publicationYear: string,
-  url: string,
-  discount: number,
-  createdAt: string,
-  ) {
-  this.title = title;
-  this.author = author;
-  this.description = description;
-  this.img = img;
-  this.price = cost;
-  this.genere = genere;
-  this.language = language;
- this.page_count = pageCount;
-  this.publication_year = publicationYear;
-  this.url = url;
-  this.discount = discount;
-  this.created = createdAt;
+export class BookModel {
+  book: BOOKINPUT  | undefined;
+  response(bookIn: BOOKINPUT): BOOKOUTPUT {
+    return {
+      id: bookIn.id,
+      title: bookIn.title,
+      author: bookIn.author,
+      description: bookIn.description,
+      img: bookIn.img,
+      price: bookIn.cost,
+      genere: bookIn.genere,
+      language: bookIn.language,
+      pageCount: bookIn.page_count,
+      publicationYear: bookIn.publication_year,
+      url: bookIn.url,
+      discount: bookIn.discount,
+      createdAt: bookIn.created,
+    };
+  }
+
+  create(book: BOOKOUTPUT): BOOKINPUT {
+    this.book = {
+      title: book.title,
+      author: book.author,
+      description: book.description,
+      img: book.img,
+      cost: book.price,
+      genere: book.genere,
+      language: book.language,
+      page_count: book.pageCount,
+      publication_year: book.publicationYear,
+      url: book.url,
+      discount: book.discount,
+      created: book.createdAt,
+    };
+    return this.book;
   }
 }

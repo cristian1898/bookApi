@@ -12,6 +12,10 @@ const statusCode = {
 
 export const MessagesError = {
   messageSuccess: () => ({ message: "Not Found", status: statusCode.notFound }),
+  notDeleteError: () => ({
+    message: "The author has associated books",
+    status: statusCode.unauthorized,
+  }),
   notFoundError: () => ({ message: "Not Found", status: statusCode.notFound }),
   internalError: () => ({
     message: "Internal server error",
@@ -38,5 +42,10 @@ export const MessagesError = {
     message: `Successfully found ${name} with id: ${id}`,
     status: statusCode.ok,
     details: item,
+  }),
+  count: <T>(name: string, data: T) => ({
+    message: `Successfully count ${name}s`,
+    details: data,
+    status: statusCode.ok,
   }),
 };

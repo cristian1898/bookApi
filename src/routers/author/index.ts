@@ -1,5 +1,5 @@
 import { createAuthor, getAuthor, listAuthors, updateAuthor } from "@controllers/author";
-import { authorIdSchema, authorSchema } from "@middlewares/schema/author.shema";
+import { authorIdSchema, authorSchema } from "@middlewares/schema/author.schema";
 import { Router } from "express";
 import apicache from 'apicache'; // prod use redis
 import env, { onlyStatus200 } from "@config";

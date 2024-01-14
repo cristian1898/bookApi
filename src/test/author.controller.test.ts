@@ -1,7 +1,10 @@
 import * as ctrl from "@controllers/author";
 import { AuthorService } from "@services/author";
 import { db } from "@libs/firebase";
-import { authorIdSchema, authorSchema } from "@middlewares/schema/author.shema";
+import {
+  authorIdSchema,
+  authorSchema,
+} from "@middlewares/schema/author.schema";
 
 import { ResponseMethod } from "@interfaces/index";
 
@@ -11,7 +14,7 @@ const defaultResponse = {
   details: {},
 };
 
-jest.mock("@middlewares/schema/author.shema");
+jest.mock("@middlewares/schema/author.schema");
 jest.mock("@libs/firebase", () => ({
   db: {
     collection: jest.fn(() => ({
@@ -45,7 +48,7 @@ jest.mock("@controllers/author", () => ({
     .mockResolvedValue({ status: 200, message: "Success Delete" }),
 }));
 
-describe("Controladores de Author", () => {
+describe("Author Drivers", () => {
   let req: any, res: any, next: any;
 
   beforeEach(() => {
@@ -62,7 +65,7 @@ describe("Controladores de Author", () => {
   });
 
   describe("getAuthor", () => {
-    it("debería devolver un autor según el ID proporcionado", async () => {
+    it("should return an author based on the provided ID", async () => {
       const result = await ctrl.getAuthor(req, res);
 
       expect(res.status).toBeDefined();
@@ -70,8 +73,8 @@ describe("Controladores de Author", () => {
     });
   });
 
-  describe("listAuthors", () => {
-    it("debería devolver una lista de autores", async () => {
+  describe("list Authors", () => {
+    it("should return a list of authors", async () => {
       const result: any | ResponseMethod = await ctrl.listAuthors(req, res);
 
       expect(res.status).toBeDefined();
@@ -80,7 +83,7 @@ describe("Controladores de Author", () => {
   });
 
   describe("updateAuthor", () => {
-    it("debería actualizar un autor según el ID proporcionado", async () => {
+    it("should update an author based on the ID provided", async () => {
       const result: any | ResponseMethod = await ctrl.updateAuthor(req, res);
       expect(res.status).toBeDefined();
       expect(result.status).toEqual(200);
@@ -88,7 +91,7 @@ describe("Controladores de Author", () => {
   });
 
   describe("createAuthor", () => {
-    it("debería crear un nuevo autor", async () => {
+    it("should create a new author", async () => {
       const result: any | ResponseMethod = await ctrl.createAuthor(req, res);
       expect(res.status).toBeDefined();
       expect(result.status).toEqual(201);
@@ -97,7 +100,7 @@ describe("Controladores de Author", () => {
   });
 
   describe("destroyAuthor", () => {
-    it("debería eliminar un autor según el ID proporcionado", async () => {
+    it("should remove an author based on the ID provided", async () => {
       const result: any | ResponseMethod = await ctrl.destroyAuthor(req, res);
       expect(res.status).toBeDefined();
       expect(result.status).toEqual(200);

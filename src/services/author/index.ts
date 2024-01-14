@@ -2,10 +2,13 @@ import { AUTHORINPUT, AUTHOROUTPUT } from "@interfaces/author";
 import { ResponseMethod } from "@interfaces/index";
 import { db } from "@libs/firebase";
 import { AutorModel } from "@models/author";
+import { BookService } from "@services/book";
 import { MessagesError } from "@utils/errors/error.hash";
 
 export class AuthorService {
   authorModel = new AutorModel();
+  bookService = new BookService();
+
   messageError = MessagesError;
 
   async handleService<T>(
@@ -21,6 +24,10 @@ export class AuthorService {
 
   async deleteAuthor(id: string): Promise<ResponseMethod> {
     return this.handleService<ResponseMethod>(async () => {
+      const {details} = await this.bookService.getBooksByAuthorCount(id)
+      if(details?.count > 0){
+        return this.messageError["notDeleteError"]();
+      }
       const authorItem = await db.collection("author").doc(id);
 
       if (!authorItem) {
@@ -67,7 +74,7 @@ export class AuthorService {
         author.id = doc.id;
         return this.authorModel.response(author);
       });
-      return this.messageError["list"]("Author", list);
+      return this.messageError["list"]("Author", {list,count:list.length});
     });
   }
   async getOneAuthor(authorId: string): Promise<ResponseMethod> {

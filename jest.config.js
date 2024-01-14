@@ -9,7 +9,7 @@ module.exports = {
   moduleNameMapper: {
     "@app": "<rootDir>/src/app",
     "@config": "<rootDir>/src/config",
-    "@errors/(.*)": "<rootDir>/src/errors",
+    "@errors": "<rootDir>/src/utils/errors/index",
     "@libs/(.*)": "<rootDir>/src/libs/$1",
     "@middlewares/(.*)": "<rootDir>/src/@middlewares/$1",
     "@controllers/(.*)": "<rootDir>/src/controllers/$1",
