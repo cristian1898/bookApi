@@ -29,7 +29,9 @@ export const updateBook = async (req: Request, res: Response) => {
   return res.status(status).json({ message });
 };
 export const createBook = async (req: Request, res: Response) => {
-  const book = req.body;
+  let book = req.body;
+  delete book.id;
+
   const { status, message } = await bookService.createBook(book);
 
   return res.status(status).json({ message });

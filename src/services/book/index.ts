@@ -1,3 +1,4 @@
+import { AUTHORINPUT } from "@interfaces/author";
 import { BOOKINPUT, BOOKOUTPUT } from "@interfaces/books";
 import { ResponseMethod } from "@interfaces/index";
 import { db } from "@libs/firebase";
@@ -39,8 +40,9 @@ export class BookService {
       if (!bookItem) {
         return this.messageError["notFoundError"]();
       }
-      const bookItemUpdate: { [field: string]: any } =
+      let bookItemUpdate: { [field: string]: any } =
         this.bookModel.create(book);
+      delete bookItemUpdate?.created;
       await bookItem.update(bookItemUpdate);
       return this.messageError["updateID"]("Book", bookItem.id);
     });
@@ -48,23 +50,44 @@ export class BookService {
 
   async createBook(book: BOOKOUTPUT): Promise<ResponseMethod> {
     return this.handleService<ResponseMethod>(async () => {
-      const bookItem = this.bookModel.create(book);
+      let bookItem = this.bookModel.create(book);
+      delete bookItem.created;
       const res = await db.collection("ebooks").add(bookItem);
-      return this.messageError["createdID"]("Book", res?.id || "");
+
+      return this.messageError["createdID"]("Libro", res?.id || "");
     });
   }
   async getBooks(): Promise<ResponseMethod> {
     return this.handleService<ResponseMethod>(async () => {
       const { docs } = await db.collection("ebooks").get();
+      const response = await db.collection("author").get();
       if (!docs || !docs.length) {
         return this.messageError["notFoundError"]();
       }
+      let authors: any = {};
+      if (response && response.docs?.length) {
+        response.docs.map((doc) => {
+          let item = doc.data() as AUTHORINPUT;
+          item.id = doc.id;
+          authors[doc.id] = { name: item.name, email: item.email, id: item.id };
+          return;
+        });
+      }
+
       const list = docs.map((doc) => {
         let book = doc.data() as BOOKINPUT;
         book.id = doc.id;
+        const year: any = book.publication_year;
+
+        book.author = authors ? authors[book.author]?.name : book.author;
         return this.bookModel.response(book);
       });
-      return this.messageError["list"]("Book", {list,count:list.length});
+
+      return this.messageError["list"]("Libro", {
+        list,
+        count: list.length,
+        listAuthors: Object.values(authors),
+      });
     });
   }
   async getBooksByAuthor(id: string): Promise<ResponseMethod> {
@@ -79,24 +102,25 @@ export class BookService {
       }
       const list = docs.map((doc) => {
         let book = doc.data() as BOOKINPUT;
+        const year: any = book.publication_year;
         book.id = doc.id;
         return this.bookModel.response(book);
       });
-      return this.messageError["list"]("Book", {list,count:list.length});
+      return this.messageError["list"]("Libro", { list, count: list.length });
     });
   }
   async getBooksByAuthorCount(id: string): Promise<ResponseMethod> {
     return this.handleService<ResponseMethod>(async () => {
-      const booksSnapshot= await db
+      const booksSnapshot = await db
         .collection("ebooks")
         .where("author", "==", id)
         .get();
 
       if (!booksSnapshot || !booksSnapshot.size) {
-        return this.messageError["list"]("Book", {count:0});
+        return this.messageError["list"]("Libro", { count: 0 });
       }
       const count = booksSnapshot.size;
-      return this.messageError["list"]("Book", {count});
+      return this.messageError["list"]("Libro", { count });
     });
   }
   async getOneBook(bookId: string): Promise<ResponseMethod> {

@@ -24,8 +24,8 @@ export class AuthorService {
 
   async deleteAuthor(id: string): Promise<ResponseMethod> {
     return this.handleService<ResponseMethod>(async () => {
-      const {details} = await this.bookService.getBooksByAuthorCount(id)
-      if(details?.count > 0){
+      const { details } = await this.bookService.getBooksByAuthorCount(id);
+      if (details?.count > 0) {
         return this.messageError["notDeleteError"]();
       }
       const authorItem = await db.collection("author").doc(id);
@@ -58,6 +58,13 @@ export class AuthorService {
 
   async createAuthor(author: AUTHOROUTPUT): Promise<ResponseMethod> {
     return this.handleService<ResponseMethod>(async () => {
+      const email = await db
+        .collection("author")
+        .where("email", "==", author.email)
+        .get();
+      if (!email.empty) {
+        return this.messageError["notFoundErrorUser"]();
+      }
       const authorItem = this.authorModel.create(author);
       const res = await db.collection("author").add(authorItem);
       return this.messageError["createdID"]("Author", res?.id || "");
@@ -74,7 +81,7 @@ export class AuthorService {
         author.id = doc.id;
         return this.authorModel.response(author);
       });
-      return this.messageError["list"]("Author", {list,count:list.length});
+      return this.messageError["list"]("Author", { list, count: list.length });
     });
   }
   async getOneAuthor(authorId: string): Promise<ResponseMethod> {

@@ -11,40 +11,50 @@ const statusCode = {
 };
 
 export const MessagesError = {
-  messageSuccess: () => ({ message: "Not Found", status: statusCode.notFound }),
+  messageSuccess: () => ({
+    message: "Existo en la operacion",
+    status: statusCode.ok,
+  }),
   notDeleteError: () => ({
-    message: "The author has associated books",
+    message: "El author no tiene libros asociados",
     status: statusCode.unauthorized,
   }),
-  notFoundError: () => ({ message: "Not Found", status: statusCode.notFound }),
+  notFoundErrorUser: () => ({
+    message: "email o name ya existe",
+    status: statusCode.badRequest,
+  }),
+  notFoundError: () => ({
+    message: "Operacion no efectuada",
+    status: statusCode.notFound,
+  }),
   internalError: () => ({
-    message: "Internal server error",
+    message: "Error interno del servidor",
     status: statusCode.internalError,
   }),
   deleteID: (name: string, id: string) => ({
-    message: `${name} with id: ${id} deleted`,
+    message: `${name} con id: ${id} eliminado`,
     status: statusCode.ok,
   }),
   updateID: (name: string, id: string) => ({
-    message: `${name} with id: ${id} updated`,
+    message: `${name} con id: ${id} actulizado`,
     status: statusCode.ok,
   }),
   createdID: (name: string, id: string) => ({
-    message: `${name} with id: ${id} created`,
+    message: `${name} con id: ${id} creado`,
     status: statusCode.created,
   }),
   list: <T>(name: string, data: T) => ({
-    message: `Successfully found ${name}s`,
+    message: `Encontrada la lista de ${name}s`,
     details: data,
     status: statusCode.ok,
   }),
   listOne: <T>(name: string, id: string, item: T) => ({
-    message: `Successfully found ${name} with id: ${id}`,
+    message: `Encontrado el recuros  ${name} con  id: ${id}`,
     status: statusCode.ok,
     details: item,
   }),
   count: <T>(name: string, data: T) => ({
-    message: `Successfully count ${name}s`,
+    message: `Exito al contar los ${name}s`,
     details: data,
     status: statusCode.ok,
   }),

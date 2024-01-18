@@ -32,6 +32,9 @@ jest.mock("@controllers/book", () => ({
   getBook: jest
     .fn()
     .mockResolvedValue({ status: 200, message: "Success", details: {} }),
+  listBooksByAuthor: jest
+    .fn()
+    .mockResolvedValue({ status: 200, message: "Success", details: [{}] }),
   listBooks: jest
     .fn()
     .mockResolvedValue({ status: 200, message: "Success", details: [{}] }),
@@ -64,13 +67,20 @@ describe("Controller of Book", () => {
 
   describe("getBook", () => {
     it("should return a book based on the provided ID", async () => {
-      const result = await ctrl.getBook(req, res);
+      const result: any | ResponseMethod = await ctrl.getBook(req, res);
 
       expect(res.status).toBeDefined();
-      expect(result).toEqual(defaultResponse);
+      expect(result.details).toEqual({});
     });
   });
+describe("listBooksByAuthor", () => {
+    it("should return a list of books of authors", async () => {
+      const result: any | ResponseMethod = await ctrl.listBooksByAuthor(req, res);
 
+      expect(res.status).toBeDefined();
+      expect(result.details).toEqual([{}]);
+    });
+  });
   describe("listBooks", () => {
     it("should return a list of books", async () => {
       const result: any | ResponseMethod = await ctrl.listBooks(req, res);
