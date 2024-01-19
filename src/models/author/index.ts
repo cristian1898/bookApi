@@ -5,10 +5,10 @@ export class AutorModel {
   response(author: AUTHORINPUT): AUTHOROUTPUT {
     return {
       id: author.id,
-      biographyInformation: author.bio,
+      biographyInformation: author.biography_information,
       email: author.email,
-      firstName: author.first_Name,
-      lastName: author.last_Name,
+      firstName: author.first_name,
+      lastName: author.last_name,
       name: author.name,
       img: author.img,
     };
@@ -16,17 +16,15 @@ export class AutorModel {
 
   create(author: AUTHOROUTPUT): AUTHORINPUT {
     this.author = {
-      bio: author.biographyInformation,
+      biography_information: author.biographyInformation,
       email: author.email,
-      first_Name: author.firstName,
-      last_Name: author.lastName,
+      first_name: author.firstName,
+      last_name: author.lastName,
       name: author.name,
       img: author.img,
     };
     return this.author;
   }
-
-
 }
 
 // const autorExample = new Autor(
@@ -37,4 +35,3 @@ export class AutorModel {
 //   'Nombre Completo',
 //   'url_de_la_imagen'
 // );
-

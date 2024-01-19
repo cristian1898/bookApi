@@ -6,9 +6,9 @@ interface AUTORBASE {
 }
 
 export interface AUTHORINPUT extends AUTORBASE {
-  first_Name: string;
-  last_Name: string;
-  bio: string;
+  first_name: string;
+  last_name: string;
+  biography_information: string;
 }
 
 export interface AUTHOROUTPUT extends AUTORBASE {
