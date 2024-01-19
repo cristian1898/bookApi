@@ -1,3 +1,17 @@
+## Install
+
+```
+cd bookApi
+npm i  or yarn install
+```
+
+### Server api
+
+```
+npm run dev
+
+```
+
 ```
 /apiBooks
 │
